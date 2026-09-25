@@ -145,6 +145,7 @@ const skills = ref([
       { name: "Git / GitHub", icon: "skill-icons:github-dark" },
       { name: "VS Code", icon: "skill-icons:vscode-dark" },
       { name: "Linux", icon: "skill-icons:linux-dark" },
+      { name: "Cloudflare", icon: "skill-icons:cloudflare-dark" },
       { name: "Figma", icon: "skill-icons:figma-dark" },
     ],
   },
