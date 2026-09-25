@@ -70,11 +70,27 @@
               </svg>
             </a>
 
+            <!-- Tombol Download CV -->
             <a
-              href="#contact"
-              class="px-8 py-3.5 bg-transparent border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white font-semibold rounded-lg hover:border-green-600 dark:hover:border-[#9DC183] hover:text-green-600 dark:hover:text-[#9DC183] transition-all duration-300 flex items-center justify-center text-sm tracking-wide"
+              href="/cv-dimas-dharma-setiawan.pdf"
+              download="CV_Dimas_Dharma_Setiawan.pdf"
+              target="_blank"
+              class="px-8 py-3.5 bg-transparent border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-white font-semibold rounded-lg hover:border-green-600 dark:hover:border-[#9DC183] hover:text-green-600 dark:hover:text-[#9DC183] transition-all duration-300 flex items-center justify-center gap-2 text-sm tracking-wide"
             >
-              HUBUNGI SAYA
+              DOWNLOAD CV
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                ></path>
+              </svg>
             </a>
           </div>
         </div>
