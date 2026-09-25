@@ -53,14 +53,14 @@
       <!-- Project Showcase Grid -->
       <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
         <div
-          v-for="(project, index) in projects"
+          v-for="(project, index) in visibleProjects"
           :key="project.id"
           :class="[
             'project-card opacity-0 group flex flex-col rounded-2xl border border-gray-200 dark:border-white/5 bg-white/60 dark:bg-white/[0.015] backdrop-blur-md overflow-hidden transition-all duration-500 hover:border-green-400 dark:hover:border-[#9DC183]/40 hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-500/5',
             index === 0 ? 'md:col-span-2 md:flex-row' : '',
           ]"
         >
-          <!-- Area Gambar (Visual Dominan) -->
+          <!-- Area Gambar -->
           <div
             :class="[
               'relative overflow-hidden bg-gray-200 dark:bg-[#111613]',
@@ -69,14 +69,12 @@
                 : 'w-full h-60 md:h-64',
             ]"
           >
-            <!-- Angka Proyek Besar di Latar -->
             <div
               class="absolute top-4 right-6 text-gray-400/30 dark:text-white/10 font-sans text-5xl md:text-7xl font-black group-hover:text-green-500/20 dark:group-hover:text-[#9DC183]/20 transition-colors duration-500 z-10 pointer-events-none"
             >
               {{ project.num }}
             </div>
 
-            <!-- Gambar Asli dari Supabase -->
             <img
               v-if="project.image"
               :src="project.image"
@@ -84,7 +82,6 @@
               class="w-full h-full object-cover transform group-hover:scale-[1.03] transition-transform duration-700 ease-out relative z-0"
             />
 
-            <!-- Fallback jika tidak ada gambar -->
             <div
               v-else
               class="w-full h-full transform group-hover:scale-[1.03] transition-transform duration-700 ease-out flex items-center justify-center border-r border-gray-200 dark:border-white/5 relative z-0"
@@ -157,15 +154,22 @@
         </div>
       </div>
 
-      <!-- Secondary Action (View All) -->
-      <div class="mt-20 text-center project-header-el opacity-0">
-        <a
-          href="https://github.com/dimasdharmasetiawan"
-          target="_blank"
-          class="inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-[#9DC183] hover:border-green-600 dark:hover:border-[#9DC183] text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300"
+      <!-- Tombol Toggle Load More / Show Less -->
+      <!-- Tambahkan ref="toggleButtonRef" di sini -->
+      <div
+        ref="toggleButtonRef"
+        v-if="projects.length > 5"
+        class="mt-20 text-center project-header-el opacity-0"
+      >
+        <button
+          @click="toggleShowAll"
+          class="inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-[#9DC183] hover:border-green-600 dark:hover:border-[#9DC183] text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 cursor-pointer"
         >
-          Lihat Semua Repositori
+          {{ showAll ? "Lihat Lebih Sedikit" : "Lihat Semua" }}
+
+          <!-- Ikon panah ke bawah -->
           <svg
+            v-if="!showAll"
             class="w-4 h-4 ml-2"
             fill="none"
             stroke="currentColor"
@@ -175,28 +179,50 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              d="M19 9l-7 7-7-7"
             ></path>
           </svg>
-        </a>
+          <!-- Ikon panah ke atas -->
+          <svg
+            v-else
+            class="w-4 h-4 ml-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 15l7-7 7 7"
+            ></path>
+          </svg>
+        </button>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, computed, onMounted, nextTick } from "vue";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { supabase } from "../supabase.js"; // Pastikan path ini sesuai dengan file konfigurasi Supabase Anda
+import { supabase } from "../supabase.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const isDark = ref(false);
 const projects = ref([]);
 const isLoading = ref(true);
+const showAll = ref(false);
 
-// Fungsi untuk menarik data dari Supabase
+// Referensi ke div pembungkus tombol
+const toggleButtonRef = ref(null);
+
+const visibleProjects = computed(() => {
+  return showAll.value ? projects.value : projects.value.slice(0, 5);
+});
+
 async function fetchProjects() {
   const { data, error } = await supabase
     .from("proyek")
@@ -204,9 +230,7 @@ async function fetchProjects() {
     .order("id", { ascending: false });
 
   if (!error && data) {
-    // Format data agar cocok dengan desain UI template Anda
     projects.value = data.map((item, index) => {
-      // Deteksi jika proyek ini SITURI untuk mengubah kategori (Opsional)
       const isSituri = item.nama.toLowerCase().includes("situri");
 
       return {
@@ -215,7 +239,6 @@ async function fetchProjects() {
         category: isSituri ? "Web & Machine Learning" : "Selected Work",
         title: item.nama,
         desc: item.deskripsi,
-        // Pecah string komponen menjadi array
         techs: item.komponen
           ? item.komponen.split(",").map((t) => t.trim())
           : [],
@@ -223,14 +246,12 @@ async function fetchProjects() {
       };
     });
 
-    // Sort khusus agar SITURI berada di urutan pertama (index 0 / gambar paling besar)
     const situriIndex = projects.value.findIndex((p) =>
       p.title.toLowerCase().includes("situri"),
     );
     if (situriIndex > 0) {
       const situriItem = projects.value.splice(situriIndex, 1)[0];
       projects.value.unshift(situriItem);
-      // Urutkan ulang nomornya
       projects.value.forEach((p, idx) => {
         p.num = String(idx + 1).padStart(2, "0");
       });
@@ -239,14 +260,62 @@ async function fetchProjects() {
 
   isLoading.value = false;
 
-  // JALANKAN GSAP SETELAH DOM TER-UPDATE DENGAN DATA BARU
   nextTick(() => {
     initGSAP();
     ScrollTrigger.refresh();
   });
 }
 
-// Pisahkan fungsi animasi GSAP agar bisa dipanggil setelah loading selesai
+// Fungsi dinamis untuk membuka dan menutup proyek
+const toggleShowAll = async () => {
+  if (showAll.value) {
+    // 1. Animasi keluar (tutup)
+    const allCards = gsap.utils.toArray(".project-card");
+    const extraCards = allCards.slice(5);
+
+    gsap.to(extraCards, {
+      y: 50,
+      opacity: 0,
+      duration: 0.4,
+      stagger: 0.05,
+      ease: "power2.in",
+      onComplete: () => {
+        showAll.value = false; // Hapus data dari layar
+
+        nextTick(() => {
+          ScrollTrigger.refresh();
+          // Scroll kembali ke tengah tombol setelah kartu di bawahnya terhapus
+          if (toggleButtonRef.value) {
+            toggleButtonRef.value.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }
+        });
+      },
+    });
+  } else {
+    // 2. Animasi masuk (buka)
+    showAll.value = true;
+
+    await nextTick();
+
+    const allCards = gsap.utils.toArray(".project-card");
+    const newCards = allCards.slice(5);
+
+    gsap.to(newCards, {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+      onComplete: () => {
+        ScrollTrigger.refresh();
+      },
+    });
+  }
+};
+
 function initGSAP() {
   gsap.to(".project-header-el", {
     scrollTrigger: { trigger: "#projects", start: "top 85%" },
@@ -257,7 +326,8 @@ function initGSAP() {
     ease: "power3.out",
   });
 
-  gsap.to(".project-card", {
+  const initialCards = gsap.utils.toArray(".project-card");
+  gsap.to(initialCards, {
     scrollTrigger: { trigger: "#projects", start: "top 75%" },
     y: 0,
     opacity: 1,
@@ -268,7 +338,6 @@ function initGSAP() {
 }
 
 onMounted(() => {
-  // Dark mode observer
   isDark.value = document.documentElement.classList.contains("dark");
   const observer = new MutationObserver(() => {
     isDark.value = document.documentElement.classList.contains("dark");
@@ -278,7 +347,6 @@ onMounted(() => {
     attributeFilter: ["class"],
   });
 
-  // Panggil fungsi tarik data saat komponen dimuat
   fetchProjects();
 });
 </script>
