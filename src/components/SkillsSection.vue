@@ -150,6 +150,18 @@ const skills = ref([
       { name: "Figma", icon: "skill-icons:figma-dark" },
     ],
   },
+  {
+    title: "Microsoft Office",
+    categoryIcon:
+      '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z"></path></svg>',
+    items: [
+      { name: "Word", icon: "vscode-icons:file-type-word" },
+      { name: "Excel", icon: "vscode-icons:file-type-excel" },
+      { name: "PowerPoint", icon: "vscode-icons:file-type-powerpoint" },
+      { name: "Access", icon: "vscode-icons:file-type-access" },
+      { name: "Visio", icon: "simple-icons:microsoftvisio" },
+    ],
+  },
 ]);
 
 onMounted(() => {
