@@ -1,53 +1,60 @@
 <template>
-  <header
-    class="fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300"
+  <!-- Navbar Fixed Base -->
+  <nav
+    :class="[
+      'fixed top-0 left-0 w-full z-50 transition-all duration-500 font-sans',
+      isScrolled
+        ? 'bg-white/80 dark:bg-[#080B09]/80 backdrop-blur-lg border-b border-gray-200 dark:border-white/10 py-4 shadow-sm dark:shadow-none'
+        : 'bg-transparent py-6',
+    ]"
   >
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <!-- Logo -->
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <!-- Kiri: Logo Wordmark -->
       <a
-        href="#"
-        class="nav-item text-2xl font-bold text-gray-900 dark:text-white tracking-wide"
+        href="#home"
+        @click="scrollToSection($event, 'home')"
+        class="text-xl md:text-2xl font-extrabold text-gray-900 dark:text-white tracking-wide group"
       >
-        Dimas<span class="text-blue-600 dark:text-blue-500">DS.</span>
+        its<span
+          class="text-green-600 dark:text-[#9DC183] transition-colors group-hover:text-green-500"
+          >drsw.</span
+        >
       </a>
 
-      <!-- Desktop Menu -->
-      <nav class="hidden md:flex space-x-8">
-        <a
-          v-for="(item, index) in menuItems"
-          :key="index"
-          :href="`#${item.toLowerCase()}`"
-          class="nav-item text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 text-sm font-medium"
-        >
-          {{ item }}
-        </a>
-      </nav>
+      <!-- Tengah: Tautan Navigasi (Desktop) -->
+      <ul class="hidden lg:flex items-center gap-8">
+        <li v-for="(link, index) in navLinks" :key="index">
+          <a
+            :href="`#${link.id}`"
+            @click="scrollToSection($event, link.id)"
+            :class="[
+              'text-sm font-semibold tracking-wide transition-all duration-300 relative py-2',
+              activeSection === link.id
+                ? 'text-green-600 dark:text-[#9DC183]'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white',
+            ]"
+          >
+            {{ link.name }}
+            <!-- Indikator Active (Garis Bawah Halus) -->
+            <span
+              class="absolute left-0 bottom-0 w-full h-[2px] bg-green-600 dark:bg-[#9DC183] transform origin-left transition-transform duration-300"
+              :class="activeSection === link.id ? 'scale-x-100' : 'scale-x-0'"
+            ></span>
+          </a>
+        </li>
+      </ul>
 
-      <!-- Aksi Kanan (Desktop & Mobile) -->
-      <div class="flex items-center space-x-3 md:space-x-4">
-        <!-- Tombol Toggle Dark/Light Mode (Tampil di Desktop & Mobile) -->
+      <!-- Kanan: Actions (Dark Mode Toggle & CTA & Hamburger) -->
+      <div class="flex items-center gap-4 md:gap-6">
+        <!-- Toggle Light/Dark Mode -->
         <button
           @click="toggleTheme"
-          class="nav-item p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300 focus:outline-none"
+          class="p-2 text-gray-500 dark:text-gray-400 hover:text-green-600 dark:hover:text-[#9DC183] hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-all duration-300 focus:outline-none"
+          aria-label="Toggle Dark Mode"
         >
-          <!-- Ikon Bulan -->
+          <!-- Ikon Matahari (Tampil saat Dark Mode aktif) -->
           <svg
-            v-if="!isDark"
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-            ></path>
-          </svg>
-          <!-- Ikon Matahari -->
-          <svg
-            v-else
+            v-if="isDark"
             class="w-5 h-5"
             fill="none"
             stroke="currentColor"
@@ -60,22 +67,28 @@
               d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
             ></path>
           </svg>
+          <!-- Ikon Bulan (Tampil saat Light Mode aktif) -->
+          <svg
+            v-else
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            ></path>
+          </svg>
         </button>
 
-        <!-- Tombol Hubungi (Hanya Desktop) -->
-        <a
-          href="#contact"
-          class="hidden md:block nav-item px-5 py-2 border border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-500 rounded-md hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 transition-all duration-300 text-sm font-medium"
-        >
-          Hubungi Saya
-        </a>
-
-        <!-- Hamburger Button (Hanya Mobile) -->
+        <!-- Tombol Hamburger (Mobile) -->
         <button
-          @click="toggleMobileMenu"
-          class="md:hidden nav-item p-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-500 focus:outline-none transition-colors"
+          @click="isMobileMenuOpen = !isMobileMenuOpen"
+          class="lg:hidden p-2 text-gray-900 dark:text-white focus:outline-none"
         >
-          <!-- Ikon Hamburger (Garis Tiga) -->
           <svg
             v-if="!isMobileMenuOpen"
             class="w-6 h-6"
@@ -90,7 +103,6 @@
               d="M4 6h16M4 12h16M4 18h16"
             ></path>
           </svg>
-          <!-- Ikon X (Tutup) -->
           <svg
             v-else
             class="w-6 h-6"
@@ -109,93 +121,143 @@
       </div>
     </div>
 
-    <!-- Mobile Menu Dropdown (Animasi dengan Vue Transition) -->
-    <transition
-      enter-active-class="transition duration-300 ease-out transform"
-      enter-from-class="-translate-y-4 opacity-0"
-      enter-to-class="translate-y-0 opacity-100"
-      leave-active-class="transition duration-200 ease-in transform"
-      leave-from-class="translate-y-0 opacity-100"
-      leave-to-class="-translate-y-4 opacity-0"
+    <!-- Mobile Menu Dropdown (Full Width) -->
+    <div
+      class="lg:hidden absolute top-full left-0 w-full bg-white dark:bg-[#080B09] border-b border-gray-200 dark:border-white/10 transition-all duration-300 overflow-hidden shadow-xl"
+      :class="
+        isMobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+      "
     >
-      <div
-        v-if="isMobileMenuOpen"
-        class="md:hidden absolute top-full left-0 w-full bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-xl"
-      >
-        <nav class="flex flex-col px-6 py-6 space-y-4">
+      <ul class="flex flex-col px-6 py-4 space-y-4">
+        <li v-for="(link, index) in navLinks" :key="index">
           <a
-            v-for="(item, index) in menuItems"
-            :key="index"
-            :href="`#${item.toLowerCase()}`"
-            @click="isMobileMenuOpen = false"
-            class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-lg transition-colors"
+            :href="`#${link.id}`"
+            @click="scrollToSection($event, link.id)"
+            class="block text-base font-semibold transition-colors duration-300"
+            :class="
+              activeSection === link.id
+                ? 'text-green-600 dark:text-[#9DC183]'
+                : 'text-gray-600 dark:text-gray-400'
+            "
           >
-            {{ item }}
+            {{ link.name }}
           </a>
-          <div class="pt-4 mt-2 border-t border-gray-200 dark:border-gray-800">
-            <a
-              href="#contact"
-              @click="isMobileMenuOpen = false"
-              class="block w-full text-center px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-all duration-300 font-medium"
-            >
-              Hubungi Saya
-            </a>
-          </div>
-        </nav>
-      </div>
-    </transition>
-  </header>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import gsap from "gsap";
+import { ref, onMounted, onUnmounted } from "vue";
 
-const menuItems = ref([
-  "Home",
-  "About",
-  "Skills",
-  "Experience",
-  "Projects",
-  "Contact",
-]);
+// State Management
+const isScrolled = ref(false);
+const isMobileMenuOpen = ref(false);
 const isDark = ref(false);
-const isMobileMenuOpen = ref(false); // State untuk mengatur buka/tutup menu HP
+const activeSection = ref("home");
 
-// Fungsi Toggle Menu HP
-const toggleMobileMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+// Definisi Navigasi
+const navLinks = [
+  { name: "Home", id: "home" },
+  { name: "About Me", id: "about" },
+  { name: "Skills", id: "skills" },
+  { name: "Experience", id: "experience" },
+  { name: "Projects", id: "projects" },
+  { name: "Contact", id: "contact" },
+];
+
+// Handle Scroll untuk mengubah background Navbar
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 50;
 };
 
-// Logika untuk Mode Gelap
+// Smooth Scrolling & Close Mobile Menu
+const scrollToSection = (e, targetId) => {
+  e.preventDefault();
+  isMobileMenuOpen.value = false; // Tutup menu mobile
+
+  const targetElement = document.getElementById(targetId);
+  if (targetElement) {
+    // Kurangi tinggi navbar (sekitar 80px) agar judul section tidak tertutup
+    const offset = 80;
+    const elementPosition = targetElement.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.scrollY - offset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+  }
+};
+
+// Toggle Tema (Light / Dark Mode)
 const toggleTheme = () => {
   isDark.value = !isDark.value;
   if (isDark.value) {
     document.documentElement.classList.add("dark");
-    localStorage.setItem("theme", "dark");
+    localStorage.theme = "dark";
   } else {
     document.documentElement.classList.remove("dark");
-    localStorage.setItem("theme", "light");
+    localStorage.theme = "light";
   }
 };
 
+// Setup Intersection Observer untuk melacak section aktif (Scrollspy)
+const setupScrollSpy = () => {
+  const sections = [
+    "home",
+    "about",
+    "skills",
+    "experience",
+    "projects",
+    "contact",
+  ];
+
+  const observerOptions = {
+    root: null,
+    rootMargin: "-20% 0px -70% 0px", // Memicu pergantian saat section masuk di 20% atas layar
+    threshold: 0,
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        activeSection.value = entry.target.id;
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+};
+
 onMounted(() => {
+  // Inisialisasi Tema dari LocalStorage atau System Preference
   if (
-    localStorage.getItem("theme") === "dark" ||
+    localStorage.theme === "dark" ||
     (!("theme" in localStorage) &&
       window.matchMedia("(prefers-color-scheme: dark)").matches)
   ) {
     isDark.value = true;
     document.documentElement.classList.add("dark");
+  } else {
+    isDark.value = false;
+    document.documentElement.classList.remove("dark");
   }
 
-  gsap.from(".nav-item", {
-    y: -30,
-    opacity: 0,
-    duration: 0.8,
-    stagger: 0.1,
-    ease: "power3.out",
-    delay: 0.2,
-  });
+  // Event Listeners
+  window.addEventListener("scroll", handleScroll);
+
+  // Tunggu sedikit agar DOM render sempurna sebelum setup ScrollSpy
+  setTimeout(() => {
+    setupScrollSpy();
+  }, 100);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
 });
 </script>
