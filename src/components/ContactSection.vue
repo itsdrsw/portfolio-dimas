@@ -29,7 +29,7 @@
           <h2
             class="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-[1.2] tracking-tight contact-header-el opacity-0"
           >
-            Mulai Percakapan.
+            Mulai berkolaborasi
           </h2>
           <p
             class="text-gray-600 dark:text-gray-400 text-base md:text-lg max-w-2xl leading-relaxed font-light contact-header-el opacity-0"
@@ -166,8 +166,8 @@
                       class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2"
                       >Nama Lengkap</label
                     >
-                    <!-- Input background dibuat lebih gelap sedikit (black/20) untuk kontras di dalam box form -->
                     <input
+                      v-model="form.name"
                       type="text"
                       class="w-full px-5 py-3.5 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/50 dark:focus:ring-[#9DC183]/50 focus:border-green-500 dark:focus:border-[#9DC183] text-gray-900 dark:text-white transition-all placeholder-gray-400 dark:placeholder-gray-600 text-sm"
                       placeholder="Masukkan nama Anda"
@@ -180,6 +180,7 @@
                       >Email</label
                     >
                     <input
+                      v-model="form.email"
                       type="email"
                       class="w-full px-5 py-3.5 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/50 dark:focus:ring-[#9DC183]/50 focus:border-green-500 dark:focus:border-[#9DC183] text-gray-900 dark:text-white transition-all placeholder-gray-400 dark:placeholder-gray-600 text-sm"
                       placeholder="email@domain.com"
@@ -193,6 +194,7 @@
                     >Pesan</label
                   >
                   <textarea
+                    v-model="form.message"
                     rows="5"
                     class="w-full px-5 py-3.5 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/50 dark:focus:ring-[#9DC183]/50 focus:border-green-500 dark:focus:border-[#9DC183] text-gray-900 dark:text-white transition-all placeholder-gray-400 dark:placeholder-gray-600 text-sm resize-none"
                     placeholder="Tuliskan pesan atau penawaran kerja sama..."
@@ -202,9 +204,10 @@
 
                 <button
                   type="submit"
-                  class="w-full sm:w-auto px-8 py-4 bg-green-600 dark:bg-[#9DC183] text-white dark:text-[#080B09] font-bold rounded-xl hover:bg-green-700 dark:hover:bg-[#8ab36f] transition-all duration-300 flex items-center justify-center gap-2 text-sm tracking-wide shadow-lg shadow-green-500/20 dark:shadow-[#9DC183]/10 cursor-pointer"
+                  :disabled="isLoading"
+                  class="w-full sm:w-auto px-8 py-4 bg-green-600 dark:bg-[#9DC183] text-white dark:text-[#080B09] font-bold rounded-xl hover:bg-green-700 dark:hover:bg-[#8ab36f] transition-all duration-300 flex items-center justify-center gap-2 text-sm tracking-wide shadow-lg shadow-green-500/20 dark:shadow-[#9DC183]/10 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  KIRIM PESAN
+                  {{ isLoading ? "MENGIRIM..." : "KIRIM PESAN" }}
                 </button>
               </form>
             </div>
@@ -265,20 +268,57 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import emailjs from "@emailjs/browser";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const isDark = ref(false);
+const isLoading = ref(false);
 
-const submitForm = () => {
-  alert("Terima kasih! Pesan Anda siap untuk diintegrasikan dengan backend.");
-};
+// State untuk menyimpan inputan user
+const form = reactive({
+  name: "",
+  email: "",
+  message: "",
+});
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+const submitForm = async () => {
+  isLoading.value = true;
+
+  try {
+    const templateParams = {
+      from_name: form.name,
+      reply_to: form.email,
+      message: form.message,
+    };
+
+    // Mengambil kunci rahasia dari file .env Vite
+    const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+
+    alert("Pesan berhasil terkirim! Saya akan segera membalas email Anda.");
+
+    form.name = "";
+    form.email = "";
+    form.message = "";
+  } catch (error) {
+    console.error("Failed to send email:", error);
+    alert(
+      "Maaf, terjadi kesalahan saat mengirim pesan. Silakan coba beberapa saat lagi.",
+    );
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 onMounted(() => {

@@ -31,7 +31,7 @@
         <h2
           class="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-[1.2] tracking-tight project-header-el opacity-0"
         >
-          Proyek yang telah saya bangun.
+          Proyek yang telah saya bangun
         </h2>
         <p
           class="text-gray-600 dark:text-gray-400 text-base md:text-lg max-w-2xl leading-relaxed font-light project-header-el opacity-0"

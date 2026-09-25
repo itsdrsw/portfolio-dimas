@@ -33,7 +33,7 @@
           <h2
             class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-[1.2] tracking-tight about-el opacity-0"
           >
-            Merancang sistem terintegrasi dan solusi cerdas untuk dampak nyata.
+            Merancang sistem terintegrasi dan solusi cerdas untuk dampak nyata
           </h2>
 
           <!-- Deskripsi sesuai CV -->
