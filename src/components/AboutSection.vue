@@ -108,105 +108,130 @@
         </div>
       </div>
 
-      <!-- Baris Bawah: Kartu Metadata Personal -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-16 lg:mt-24">
+      <!-- Baris Bawah: Kartu Statistik Personal -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 lg:mt-24">
+        <!-- Statistik 1: Tahun Pengalaman -->
         <div
-          class="about-card opacity-0 flex items-center gap-4 p-4 rounded-xl border border-gray-200 dark:border-white/5 bg-white/40 dark:bg-white/[0.02] backdrop-blur-sm hover:border-green-400 dark:hover:border-[#9DC183]/40 transition-all duration-300 group shadow-sm"
+          class="about-card opacity-0 relative group p-6 rounded-2xl border border-gray-200 dark:border-white/5 bg-white/40 dark:bg-white/[0.02] backdrop-blur-md overflow-hidden hover:border-green-400 dark:hover:border-[#9DC183]/40 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-green-500/5"
         >
+          <!-- Garis Aksen Atas (Muncul saat Hover) -->
           <div
-            class="w-10 h-10 rounded-lg bg-green-50 dark:bg-[#9DC183]/10 flex items-center justify-center text-green-600 dark:text-[#9DC183] group-hover:scale-110 transition-transform duration-300"
+            class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 dark:via-[#9DC183] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          ></div>
+
+          <div class="flex justify-between items-start mb-4">
+            <h3
+              class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-gray-500 dark:from-white dark:to-gray-500 group-hover:from-green-600 group-hover:to-green-400 dark:group-hover:from-[#9DC183] dark:group-hover:to-emerald-200 transition-all duration-500"
+            >
+              03<span class="text-2xl text-green-500 dark:text-[#9DC183]"
+                >+</span
+              >
+            </h3>
+            <div
+              class="p-2.5 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-[#9DC183] group-hover:bg-green-50 dark:group-hover:bg-[#9DC183]/10 transition-all duration-500"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <p
+            class="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mt-2"
           >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M12 14l9-5-9-5-9 5 9 5z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
-              />
-            </svg>
-          </div>
-          <div class="flex flex-col">
-            <span
-              class="text-[11px] font-bold text-gray-500 dark:text-gray-500 uppercase tracking-widest"
-              >Pendidikan</span
-            >
-            <span class="text-sm font-medium text-gray-900 dark:text-gray-200"
-              >Teknik Informatika</span
-            >
-          </div>
+            Tahun Pengalaman
+          </p>
         </div>
 
+        <!-- Statistik 2: Proyek Selesai -->
         <div
-          class="about-card opacity-0 flex items-center gap-4 p-4 rounded-xl border border-gray-200 dark:border-white/5 bg-white/40 dark:bg-white/[0.02] backdrop-blur-sm hover:border-green-400 dark:hover:border-[#9DC183]/40 transition-all duration-300 group shadow-sm"
+          class="about-card opacity-0 relative group p-6 rounded-2xl border border-gray-200 dark:border-white/5 bg-white/40 dark:bg-white/[0.02] backdrop-blur-md overflow-hidden hover:border-green-400 dark:hover:border-[#9DC183]/40 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-green-500/5"
         >
           <div
-            class="w-10 h-10 rounded-lg bg-green-50 dark:bg-[#9DC183]/10 flex items-center justify-center text-green-600 dark:text-[#9DC183] group-hover:scale-110 transition-transform duration-300"
+            class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 dark:via-[#9DC183] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          ></div>
+
+          <div class="flex justify-between items-start mb-4">
+            <h3
+              class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-gray-500 dark:from-white dark:to-gray-500 group-hover:from-green-600 group-hover:to-green-400 dark:group-hover:from-[#9DC183] dark:group-hover:to-emerald-200 transition-all duration-500"
+            >
+              11<span class="text-2xl text-green-500 dark:text-[#9DC183]"
+                >+</span
+              >
+            </h3>
+            <div
+              class="p-2.5 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-[#9DC183] group-hover:bg-green-50 dark:group-hover:bg-[#9DC183]/10 transition-all duration-500"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <p
+            class="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mt-2"
           >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-              />
-            </svg>
-          </div>
-          <div class="flex flex-col">
-            <span
-              class="text-[11px] font-bold text-gray-500 dark:text-gray-500 uppercase tracking-widest"
-              >Fokus Utama</span
-            >
-            <span class="text-sm font-medium text-gray-900 dark:text-gray-200"
-              >Web & Mobile</span
-            >
-          </div>
+            Proyek Selesai
+          </p>
         </div>
 
+        <!-- Statistik 3: Klien & Mitra Puas -->
         <div
-          class="about-card opacity-0 flex items-center gap-4 p-4 rounded-xl border border-gray-200 dark:border-white/5 bg-white/40 dark:bg-white/[0.02] backdrop-blur-sm hover:border-green-400 dark:hover:border-[#9DC183]/40 transition-all duration-300 group shadow-sm"
+          class="about-card opacity-0 relative group p-6 rounded-2xl border border-gray-200 dark:border-white/5 bg-white/40 dark:bg-white/[0.02] backdrop-blur-md overflow-hidden hover:border-green-400 dark:hover:border-[#9DC183]/40 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-green-500/5"
         >
           <div
-            class="w-10 h-10 rounded-lg bg-green-50 dark:bg-[#9DC183]/10 flex items-center justify-center text-green-600 dark:text-[#9DC183] group-hover:scale-110 transition-transform duration-300"
+            class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 dark:via-[#9DC183] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          ></div>
+
+          <div class="flex justify-between items-start mb-4">
+            <h3
+              class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-gray-500 dark:from-white dark:to-gray-500 group-hover:from-green-600 group-hover:to-green-400 dark:group-hover:from-[#9DC183] dark:group-hover:to-emerald-200 transition-all duration-500"
+            >
+              02<span class="text-2xl text-green-500 dark:text-[#9DC183]"
+                >+</span
+              >
+            </h3>
+            <div
+              class="p-2.5 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-[#9DC183] group-hover:bg-green-50 dark:group-hover:bg-[#9DC183]/10 transition-all duration-500"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <p
+            class="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mt-2"
           >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
-              />
-            </svg>
-          </div>
-          <div class="flex flex-col">
-            <span
-              class="text-[11px] font-bold text-gray-500 dark:text-gray-500 uppercase tracking-widest"
-              >Spesialisasi</span
-            >
-            <span class="text-sm font-medium text-gray-900 dark:text-gray-200"
-              >Machine Learning</span
-            >
-          </div>
+            Klien & Mitra Puas
+          </p>
         </div>
       </div>
     </div>
