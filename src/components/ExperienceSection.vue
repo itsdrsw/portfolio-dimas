@@ -21,14 +21,14 @@
           <div class="w-8 h-[2px] bg-green-600 dark:bg-[#9DC183]"></div>
           <span
             class="uppercase tracking-[0.2em] text-xs font-bold text-gray-500 dark:text-gray-400"
-            >Jejak Karir</span
+            >Experience</span
           >
           <div class="w-8 h-[2px] bg-green-600 dark:bg-[#9DC183]"></div>
         </div>
         <h2
           class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-[1.2] tracking-tight exp-header-el opacity-0"
         >
-          Pengalaman Profesional
+          Jejak Karir
         </h2>
       </div>
 

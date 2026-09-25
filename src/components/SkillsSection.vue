@@ -21,7 +21,7 @@
           <div class="w-8 h-[2px] bg-green-600 dark:bg-[#9DC183]"></div>
           <span
             class="uppercase tracking-[0.2em] text-xs font-bold text-gray-500 dark:text-gray-400"
-            >Tech Stack</span
+            >Skills</span
           >
         </div>
         <h2
