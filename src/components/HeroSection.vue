@@ -235,11 +235,18 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* CSS untuk menciptakan pola grid dinamis Light/Dark */
+.about-el {
+  transform: translateY(30px);
+}
+.about-card {
+  transform: translateY(20px);
+}
+
+/* Grid Pattern (Opacity ditingkatkan agar lebih terlihat di Dark Mode) */
 .bg-grid-dark {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 .bg-grid-light {
