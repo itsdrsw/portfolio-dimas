@@ -188,7 +188,7 @@
 import { ref, onMounted, nextTick } from "vue";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { supabase } from "./supabase.js"; // Pastikan path ini sesuai dengan file konfigurasi Supabase Anda
+import { supabase } from "../supabase.js"; // Pastikan path ini sesuai dengan file konfigurasi Supabase Anda
 
 gsap.registerPlugin(ScrollTrigger);
 
